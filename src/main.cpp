@@ -9,6 +9,7 @@
 #include <vector>
 #include <iostream>
 
+#include <emscripten/emscripten.h>
 
 extern "C" {
   /**
@@ -31,7 +32,7 @@ extern "C" {
   }
 
   /**
-  * Função que comprime uma imagem em memória para formato JPG.
+  * Função que comprime uma RGB(A) para JPEG em memória usando stb_image_write.
   *
   * Parâmetros:
   * - rawImageData: ponteiro para os bytes da imagem (RGBA ou RGB)
@@ -45,6 +46,8 @@ extern "C" {
   * - Ponteiro para os dados JPG gerados (alocados com malloc)
   * - Deve ser liberado com `freeCompressedImage()` no JS após o uso
   */
+
+  EMSCRIPTEN_KEEPALIVE
   unsigned char* compressImageToJpg(
     unsigned char* rawImageData, 
     int width, 
@@ -75,7 +78,7 @@ extern "C" {
         rgbImageData[destIndex + 2] = rawImageData[srcIndex + 2]; // B
       }
       // .data() retorna um ponteiro para o primeiro elemento do vetor, ou seja, um unsigned char* 
-      pixelData = rgbImageData.data()
+      pixelData = rgbImageData.data();
     }
 
     // Gera um JPEG em memória e chama uma função callback para enviar os dados gerados pedaço a pedaço
@@ -90,7 +93,7 @@ extern "C" {
     );
 
     if (!success) {
-      std::cerr << "Falha ao comprimir imagem." << std::endl;
+      printf("Falha ao comprimir imagem.\n");
       *outputSize = 0;      // Indica que a compressão falhou, tamanho zero
       return nullptr;
     }
@@ -113,10 +116,21 @@ extern "C" {
     return compressedData;
   }
 
-
   /**
-  * Libera o buffer da imagem gerado por `compressImageToJpg`
+  * Função que libera a memória alocada para uma imagem JPG comprimida (imagem gerada por `compressImageToJpg`).
+  *
+  * Parâmetros:
+  * - data: ponteiro para os dados JPG previamente alocados com `malloc`
+  *
+  * Retorno:
+  * - Void (sem retorno). A memória apontada por 'data' é liberada com free().
+  *
+  * Observação:
+  * - Essa função é necessária pois o `malloc` foi feito no lado C++ e o
+  *   JavaScript não pode liberar essa memória diretamente.
   */
+
+  EMSCRIPTEN_KEEPALIVE
   void freeCompressedImage(unsigned char* data) {
     free(data);
   }
