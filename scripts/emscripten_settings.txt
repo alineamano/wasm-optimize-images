@@ -1,7 +1,10 @@
-#!/bin/bash
-emcc src/main.cpp \
-  -o build/compress.js \
-  -s EXPORTED_FUNCTIONS="['_compressImage']" \
-  -s EXPORTED_RUNTIME_METHODS="['ccall', 'cwrap']" \
-  -s ALLOW_MEMORY_GROWTH=1 \
-  -O3
+# Flags de otimização e geração para o Emscripten
+
+-O3                                                                                 # Otimização máxima para produção
+-s WASM=1                                                                           # Gera WebAssembly (WASM)
+-s EXPORTED_FUNCTIONS='["_compressImageToJpg", "_freeCompressedImage"]'             # Funções exportadas para JS
+-s EXPORTED_RUNTIME_METHODS='["cwrap", "getValue", "setValue", "malloc", "free"]'   # Métodos do runtime disponíveis no JS
+-s ALLOW_MEMORY_GROWTH=1                                                            # Permite que a memória do WASM cresça dinamicamente
+-s MODULARIZE=1                                                                     # Modulariza o output para facilitar o uso via função
+-s EXPORT_NAME='createModule'                                                       # Nome da função que inicializa o módulo WASM
+-I src/                                                                             # Inclui a pasta src para buscar headers (.h)
