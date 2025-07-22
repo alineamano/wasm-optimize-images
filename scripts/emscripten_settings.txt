@@ -1,0 +1,7 @@
+#!/bin/bash
+emcc src/main.cpp \
+  -o build/compress.js \
+  -s EXPORTED_FUNCTIONS="['_compressImage']" \
+  -s EXPORTED_RUNTIME_METHODS="['ccall', 'cwrap']" \
+  -s ALLOW_MEMORY_GROWTH=1 \
+  -O3
