@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Otimizador de Imagem</title>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
+
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script type="module" src="./app.js"></script>
+
+    <style>
+      body {
+        font-family: "Poppins", Helvetica, sans-serif;
+      }
+    </style>
+  </head>
+  <body
+    class="bg-[#ffe5d9] bg-gradient-to-br from-[#e0f2ff] via-[#fff0f6] to-[#fef9f3] text-gray-900 flex flex-col items-center justify-center p-4 min-h-screen"
+  >
+    <main
+      class="w-full max-w-xl bg-white rounded-2xl shadow-lg p-6 space-y-6"
+      style="box-shadow: 2px 2px 8px rgba(255, 151, 112, 0.4)"
+    >
+      <h1
+        class="text-4xl sm:text-6xl font-bold text-center text-[#ff70a6] leading-tight"
+        style="text-shadow: 2px 2px 6px rgba(255, 151, 112, 0.4)"
+      >
+        Otimizador de Imagens
+      </h1>
+
+      <p class="text-center text-gray-600 text-base">
+        Comprima imagens com qualidade ajustável e salve em formato JPG usando
+        C++
+      </p>
+
+      <!-- Imagem -->
+      <div
+        id="input-drop-area"
+        class="flex flex-col items-center justify-center h-48 w-full border-2 border-dashed border-gray-300 rounded-xl bg-gray-50 hover:bg-gray-100 transition duration-200 cursor-pointer"
+      >
+        <svg
+          class="w-12 h-12 text-gray-400 mb-2"
+          viewBox="0 0 24 24"
+          fill="currentColor"
+        >
+          <path
+            d="M1.5 6a2.25 2.25 0 0 1 2.25-2.25h16.5A2.25 2.25 0 0 1 22.5 6v12a2.25 2.25 0 0 1-2.25 2.25H3.75A2.25 2.25 0 0 1 1.5 18V6ZM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0 0 21 18v-1.94l-2.69-2.689a1.5 1.5 0 0 0-2.12 0l-.88.879.97.97a.75.75 0 1 1-1.06 1.06l-5.16-5.159a1.5 1.5 0 0 0-2.12 0L3 16.061Zm10.125-7.81a1.125 1.125 0 1 1 2.25 0 1.125 1.125 0 0 1-2.25 0Z"
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+          />
+        </svg>
+        <p class="text-sm text-gray-600 text-center">
+          <span class="font-medium text-[#3a86ff]">Clique</span> ou arraste sua
+          imagem aqui
+        </p>
+        <span class="text-xs text-gray-400 mt-1">
+          PNG, JPG, JPEG, WEBP, ...
+        </span>
+        <div
+          id="file-name-info"
+          class="mt-2 flex items-center gap-2 text-xs text-gray-500"
+        >
+          <span id="file-name" class="truncate max-w-[200px]">
+            Nenhum arquivo selecionado
+          </span>
+          <button id="remove-file-name" class="hidden hover:text-red-500">
+            ×
+          </button>
+        </div>
+      </div>
+      <input
+        id="file-input"
+        type="file"
+        accept="image/*"
+        class="hidden"
+        required
+      />
+
+      <!-- Slider -->
+      <div>
+        <label
+          for="quality-slider"
+          class="block text-sm font-medium text-gray-700 mb-1"
+        >
+          Qualidade da compressão
+        </label>
+        <div class="flex items-center gap-3">
+          <input
+            id="quality-slider"
+            type="range"
+            min="1"
+            max="100"
+            value="90"
+            class="w-full accent-[#3a86ff]"
+          />
+          <span id="quality-value" class="text-sm text-gray-600">90</span>
+        </div>
+      </div>
+
+      <!-- Botão -->
+      <button
+        id="compressBtn"
+        class="w-full bg-[#3a86ff] hover:bg-[#2c6ae3] text-white font-semibold py-3 rounded-lg shadow-md transition duration-200 uppercase"
+      >
+        Comprimir imagem
+      </button>
+    </main>
+
+    <!-- Script main-->
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>

@@ -1,4 +1,4 @@
-optimize-images/
+wasm-optimize-images/
 ├── src/ # Código C++ + headers
 │ ├── main.cpp
 │ ├── stb_image.h
@@ -7,6 +7,8 @@ optimize-images/
 ├── web/ # Interface web (HTML + JS)
 │ ├── index.html
 │ └── app.js
+│ └── interfaceHandlers.js
+│ └── compressImage.js
 │
 ├── dist/ # Arquivos gerados (WASM, JS wrapper)
 │ ├── compress.wasm
@@ -22,3 +24,4 @@ optimize-images/
 │
 ├── README.md
 └── LICENSE
+└── structure.md
