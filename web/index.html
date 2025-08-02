@@ -66,12 +66,15 @@
         </span>
         <div
           id="file-name-info"
-          class="mt-2 flex items-center gap-2 text-xs text-gray-500"
+          class="mt-2 flex items-center gap-2 text-xs text-gray-500 h-8"
         >
           <span id="file-name" class="truncate max-w-[200px]">
             Nenhum arquivo selecionado
           </span>
-          <button id="remove-file-name" class="hidden hover:text-red-500">
+          <button
+            id="remove-file-name"
+            class="hidden hover:text-red-500 text-2xl font-black cursor-pointer"
+          >
             ×
           </button>
         </div>
@@ -123,7 +126,7 @@
       <div id="modal" class="bg-gray-50 rounded-lg p-6 w-96 pt-16 relative">
         <button
           id="modal-close-btn"
-          class="absolute top-6 right-6 text-gray-500 hover:text-gray-800 text-2xl font-bold"
+          class="absolute top-6 right-6 text-gray-500 hover:text-gray-800 text-2xl font-black"
         >
           x
         </button>

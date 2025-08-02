@@ -1,0 +1,39 @@
+import { IDs } from "../constants/ids.js";
+import { $ } from "../utils/dom.js";
+
+import { getCurrentBlobUrl } from "./modal.js";
+
+const downloadBtn = $(IDs.downloadBtn);
+
+/**
+ * Triggers the download of a file from the given blob URL.
+ *
+ * @param {string} blobUrl - The Blob URL to download.
+ * @param {string} filename - The filename to use for the downloaded file.
+ */
+function triggerDownload(blobUrl, filename) {
+  const link = document.createElement("a");
+  link.href = blobUrl;
+  link.download = filename;
+
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
+/**
+ * Handles the download button click event.
+ */
+function handleDownloadClick() {
+  const blobUrl = getCurrentBlobUrl();
+  if (!blobUrl) return;
+
+  triggerDownload(blobUrl, "compressed_image.jpg");
+}
+
+/**
+ * Sets up the event handler for downloading the compressed image.
+ */
+export function setupDownloadHandler() {
+  downloadBtn.addEventListener("click", handleDownloadClick);
+}

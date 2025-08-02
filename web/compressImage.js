@@ -1,7 +1,12 @@
 let wasmInstance = null;
 
 /**
- * Inicializa o módulo WASM gerado com MODULARIZE=1 e EXPORT_NAME='createModule'
+ * Initializes the WASM module built with MODULARIZE=1 and EXPORT_NAME='createModule'.
+ *
+ * Loads the module dynamically and ensures core memory and methods are available.
+ *
+ * @returns {Promise<Object>} The initialized WebAssembly instance.
+ * @throws {Error} If the module is missing essential memory/methods.
  */
 export async function initWasm() {
   if (wasmInstance) return wasmInstance;
@@ -9,10 +14,10 @@ export async function initWasm() {
   const { default: createModule } = await import("../dist/compress.js");
   wasmInstance = await createModule();
 
-  // Debug: confirmar que tem métodos essenciais
+  // Sanity check: Ensure essential memory API is available
   if (typeof wasmInstance._malloc !== "function" || !wasmInstance.HEAPU8) {
     throw new Error(
-      "Módulo WASM não inicializado corretamente: faltam _malloc ou HEAPU8"
+      "WASM module was not initialized correctly: missing _malloc or HEAPU8"
     );
   }
 
@@ -20,13 +25,15 @@ export async function initWasm() {
 }
 
 /**
- * Comprime uma imagem raw para JPG usando o WASM
- * @param {Uint8Array} rawImageData - dados da imagem (RGBA ou RGB)
- * @param {number} width - largura da imagem
- * @param {number} height - altura da imagem
- * @param {number} channels - número de canais (3 ou 4)
- * @param {number} quality - qualidade JPEG (1-100)
- * @returns {Uint8Array} dados JPEG comprimidos
+ * Compresses raw image data to JPEG using the WASM module.
+ *
+ * @param {Uint8Array} rawImageData - The raw image data (RGB or RGBA).
+ * @param {number} width - Image width in pixels.
+ * @param {number} height - Image height in pixels.
+ * @param {number} channels - Number of color channels (3 for RGB, 4 for RGBA).
+ * @param {number} quality - JPEG compression quality (1 to 100).
+ * @returns {Promise<Uint8Array>} The compressed JPEG data.
+ * @throws {Error} If memory allocation or compression fails.
  */
 export async function compressImage(
   rawImageData,
@@ -43,15 +50,16 @@ export async function compressImage(
   const imageDataPointer = wasm._malloc(imageDataLength);
 
   if (imageDataPointer === 0) {
-    throw new Error("Falha ao alocar memória para a imagem");
+    throw new Error("Failed to allocate memory for the image data.");
   }
 
-  // Copia dados da imagem para memória do WASM
+  // Copy image data into WASM memory
   wasm.HEAPU8.set(rawImageData, imageDataPointer);
 
-  const outputSizePointer = wasm._malloc(4); // Aloca espaço para 1 int
+  // Allocate space for the output size (int32) - 1 int
+  const outputSizePointer = wasm._malloc(4);
 
-  // Chama função C++ exportada: retorna ponteiro pro buffer comprimido
+  // Call exported C++ function: returns pointer to compressed image buffer
   const compressedImagePointer = wasm._compressImageToJpg(
     imageDataPointer,
     width,
@@ -61,7 +69,7 @@ export async function compressImage(
     outputSizePointer
   );
 
-  // Lê o tamanho do buffer comprimido da memória WASM
+  // Read the size of the compressed image from WASM memory
   const compressedImageSize = wasm.HEAP32[outputSizePointer >> 2];
 
   if (compressedImagePointer === 0 || compressedImageSize === 0) {
@@ -70,6 +78,7 @@ export async function compressImage(
     throw new Error("Falha na compressão da imagem");
   }
 
+  // Copy compressed data from WASM memory
   const compressedData = new Uint8Array(
     wasm.HEAPU8.buffer,
     compressedImagePointer,
@@ -77,6 +86,7 @@ export async function compressImage(
   );
   const compressedDataCopy = new Uint8Array(compressedData);
 
+  // Free allocated memory
   wasm._free(imageDataPointer);
   wasm._free(outputSizePointer);
   wasm._freeCompressedImage(compressedImagePointer);

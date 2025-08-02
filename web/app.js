@@ -1,15 +1,16 @@
-import {
-  setupImageInputHandlers,
-  setupQualitySlider,
-  setupCloseModalHandler,
-  setupDownloadHandler,
-  showCompressedImage,
-  getSelectedFile,
-  getSelectedQuality,
-} from "./interfaceHandlers.js";
-
 import { compressImage } from "./compressImage.js";
+import { setupDownloadHandler } from "./handlers/download.js";
+import { getSelectedFile, setupImageInputHandlers } from "./handlers/input.js";
+import {
+  setupCloseModalHandler,
+  showCompressedImage,
+} from "./handlers/modal.js";
+import { getSelectedQuality, setupQualitySlider } from "./handlers/slider.js";
 
+/**
+ * Main application entry point.
+ * Initializes event handlers and sets up the image compression workflow.
+ */
 function main() {
   setupImageInputHandlers();
   setupQualitySlider();
@@ -24,11 +25,8 @@ function main() {
 
     if (!file) return;
 
-    console.log("file", file);
-
     try {
       const imageBitmap = await createImageBitmap(file);
-
       const { width: imageWidth, height: imageHeight } = imageBitmap;
 
       const canvas = document.createElement("canvas");
