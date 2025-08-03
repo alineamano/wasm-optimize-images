@@ -4,6 +4,24 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
+    <!--
+      Content Security Policy (CSP)
+      Protects against XSS, script injection, and misuse of external resources.
+    -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="
+        default-src 'self';                             /* Only allow resources from this origin */
+        script-src 'self' https://cdn.jsdelivr.net;     /* Allow JS from jsDelivr CDN */
+        style-src 'self' https://fonts.googleapis.com;  /* Allow styles from Google Fonts */
+        font-src https://fonts.gstatic.com;             /* Allow font files */
+        img-src 'self' data:;                           /* Allow inline images (e.g., base64) */
+        object-src 'none';                              /* Prevent use of <object>, <embed>, etc. */
+        connect-src 'none';                             /* Disallow fetch/XHR/WebSockets */
+        base-uri 'self';                                /* Prevent <base> tag from being abused */
+      "
+    />
+
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Otimizador de Imagem</title>
