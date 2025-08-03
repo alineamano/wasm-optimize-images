@@ -51,10 +51,10 @@ function main() {
       const blob = new Blob([compressedJpegImg], { type: "image/jpeg" });
       const blobUrl = URL.createObjectURL(blob);
 
-      showCompressedImage(blobUrl);
+      showCompressedImage(blobUrl, file.size, blob.size);
     } catch (error) {
-      console.error("Erro ao comprimir a imagem: ", error);
-      alert("Erro ao comprimir a imagem: ", error);
+      console.error("Error compressing the image: ", error);
+      alert("An error occurred while compressing the image: ", error);
     }
   });
 }

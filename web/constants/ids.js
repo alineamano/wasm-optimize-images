@@ -8,13 +8,16 @@
 export const IDs = {
   compressBtn: "compress-image-btn",
   compressedImagePreview: "compressed-image-preview",
+  compressedSize: "compressed-size",
   downloadBtn: "download-image-btn",
   fileInput: "file-input",
   fileName: "file-name",
   inputDropArea: "input-drop-area",
   modalCloseBtn: "modal-close-btn",
   modalOverlay: "modal-overlay",
+  originalSize: "original-size",
   removeFileBtn: "remove-file-name",
+  sizeObservation: "size-observation",
   slider: "quality-slider",
   sliderValue: "quality-value",
 };

@@ -56,7 +56,7 @@ function setSelectedFile(file) {
 /**
  * Clears the currently selected file from the input and updates the UI.
  */
-function clearSelectedFile() {
+export function clearSelectedFile() {
   fileInput.value = "";
   refreshFileInputState();
 }

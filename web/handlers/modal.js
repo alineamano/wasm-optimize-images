@@ -1,10 +1,14 @@
 import { IDs } from "../constants/ids.js";
 import { $ } from "../utils/dom.js";
+import { clearSelectedFile } from "./input.js";
 
 const compressedImagePreview = $(IDs.compressedImagePreview);
+const compressedSizeHtml = $(IDs.compressedSize);
 const downloadBtn = $(IDs.downloadBtn);
 const modalCloseBtn = $(IDs.modalCloseBtn);
 const modalOverlay = $(IDs.modalOverlay);
+const originalSizeHtml = $(IDs.originalSize);
+const sizeObservation = $(IDs.sizeObservation);
 
 let currentBlobUrl = null;
 
@@ -22,31 +26,63 @@ function revokeCurrentBlobUrl() {
  * Hides the modal and clears the compressed image preview.
  */
 function closeModal() {
-  revokeCurrentBlobUrl();
+  if (currentBlobUrl) {
+    URL.revokeObjectURL(currentBlobUrl);
+    currentBlobUrl = null;
+  }
+
+  clearSelectedFile();
+
   modalOverlay.classList.add("hidden");
+  sizeObservation.classList.add("hidden");
   compressedImagePreview.src = "";
+
+  originalSizeHtml.textContent = "";
+  compressedSizeHtml.textContent = "";
+
   downloadBtn.disabled = true;
 }
 
 /**
- * Sets up the event listener to close the modal when the close button is clicked.
+ * Sets up the modal close button to hide the modal and reset image preview and size info.
  */
 export function setupCloseModalHandler() {
   modalCloseBtn.addEventListener("click", closeModal);
 }
 
 /**
- * Displays the compressed image in the modal and enables the download button.
+ * Formats a byte size to KB/MB with 2 decimals
+ *
+ * @param {number} bytes
+ * @returns {string}
+ */
+function formatBytes(bytes) {
+  if (bytes < 1024) return `${bytes} B`;
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(2)} KB`;
+  return `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
+}
+
+/**
+ * Displays the compressed image and file size info in the modal.
  *
  * @param {string} blobUrl - The Blob URL of the compressed image.
+ * @param {number} originalSize - Original file size in bytes.
+ * @param {number} compressedSize - Compressed file size in bytes.
  */
-export function showCompressedImage(blobUrl) {
-  revokeCurrentBlobUrl();
+export function showCompressedImage(blobUrl, originalSize, compressedSize) {
+  if (currentBlobUrl) URL.revokeObjectURL(currentBlobUrl);
   currentBlobUrl = blobUrl;
 
   compressedImagePreview.src = blobUrl;
   modalOverlay.classList.remove("hidden");
   downloadBtn.disabled = false;
+
+  originalSizeHtml.textContent = formatBytes(originalSize);
+  compressedSizeHtml.textContent = formatBytes(compressedSize);
+
+  if (originalSize < compressedSize) {
+    sizeObservation.classList.remove("hidden");
+  }
 }
 
 /**

@@ -121,40 +121,65 @@
     <!-- Modal -->
     <div
       id="modal-overlay"
-      class="fixed inset-0 bg-black/50 flex items-center justify-center hidden"
+      class="fixed inset-0 bg-black/50 flex items-center justify-center hidden px-4 sm:px-6"
     >
-      <div id="modal" class="bg-gray-50 rounded-lg p-6 w-96 pt-16 relative">
+      <div
+        id="modal"
+        class="bg-white rounded-xl p-6 w-full max-w-4xl mx-auto relative pt-8"
+      >
         <button
           id="modal-close-btn"
-          class="absolute top-6 right-6 text-gray-500 hover:text-gray-800 text-2xl font-black"
+          class="absolute top-6 right-6 text-gray-500 hover:text-gray-800 text-2xl font-black cursor-pointer"
         >
           x
         </button>
-
         <div
           id="modal-content"
-          class="flex items-center justify-center flex-col"
+          class="flex flex-col items-stretch md:flex-row gap-8 p-6 pt-8 rounded-xl w-full max-w-4xl mx-auto"
         >
-          <!-- Preview da imagem comprimida -->
+          <!-- Imagem à esquerda -->
           <img
             id="compressed-image-preview"
-            style="
-              max-width: 100%;
-              margin-top: 1rem;
-              border-radius: 8px;
-              margin-bottom: 1rem;
-            "
-            alt="Preview da imagem comprimida"
+            class="w-full md:w-[55%] rounded-lg object-contain max-h-[400px] max-w-[400px] self-center"
+            alt="Compressed image preview"
           />
 
-          <!-- Botão para salvar a imagem -->
-          <button
-            id="download-image-btn"
-            class="mt-2 w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 rounded-lg"
-            disabled
-          >
-            Baixar imagem
-          </button>
+          <!-- Informações e botão à direita -->
+          <div class="flex flex-col w-full md:w-[45%]">
+            <!-- Título -->
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">
+              Imagem comprimida!
+            </h2>
+
+            <!-- Informações de tamanho -->
+            <div
+              id="compression-info"
+              class="text-base text-gray-700 mb-6 space-y-2"
+            >
+              <p>
+                <strong>Tamanho original:</strong>
+                <span id="original-size" class="text-gray-600">-</span>
+              </p>
+              <p>
+                <strong>Tamanho comprimido:</strong>
+                <span id="compressed-size" class="text-gray-600">-</span>
+              </p>
+              <p id="size-observation" class="hidden">
+                <strong>Observação:</strong>
+                A imagem comprimida ficou maior que a original. Tente selecionar
+                uma qualidade menor para reduzir o tamanho da imagem gerada.
+              </p>
+            </div>
+
+            <!-- Botão para salvar a imagem -->
+            <button
+              id="download-image-btn"
+              class="mt-auto w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 rounded-lg transition duration-200 cursor-pointer"
+              disabled
+            >
+              Baixar Imagem
+            </button>
+          </div>
         </div>
       </div>
     </div>
