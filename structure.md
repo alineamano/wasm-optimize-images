@@ -1,27 +1,56 @@
 wasm-optimize-images/
-├── src/ # Código C++ + headers
-│ ├── main.cpp
-│ ├── stb_image.h
-│ └── stb_image_write.h
+├── src/                         # Código-fonte C++ (inclui versão legacy e headers)
+│   ├── main.cpp
+│   ├── old_code.cpp             # Código antigo antes do WebAssembly
+│   ├── stb_image.h
+│   └── stb_image_write.h
 │
-├── web/ # Interface web (HTML + JS)
-│ ├── index.html
-│ └── app.js
-│ └── interfaceHandlers.js
-│ └── compressImage.js
+├── web/                         # Interface web
+│   ├── index.html
+│   ├── app.js
+│   ├── compressImage.js
+│   ├── constants/
+│   │   └── ids.js
+│   ├── handlers/
+│   │   ├── download.js
+│   │   ├── input.js
+│   │   ├── modal.js
+│   │   └── slider.js
+│   ├── utils/
+│   │   ├── dom.js
+│   │   ├── showNotification.js
+│   │   └── translate.js
+│   └── i18n/
+│       ├── en.json
+│       └── pt.json
 │
-├── dist/ # Arquivos gerados (WASM, JS wrapper)
-│ ├── compress.wasm
-│ └── compress.js
+├── dist/                        # Saída do build WebAssembly
+│   ├── compress.wasm
+│   └── compress.js
 │
-├── assets/ # Imagens exemplo ou testes
-│ ├── exemplo.png
-│ └── resultado.jpg
+├── tests/                       # Testes unitários, integração e end-to-end
+│   ├── unit/
+│   │   └── compressImage.test.js
+│   └── integration/
+│       └── compress-flow.test.js
+│   └── e2e/               
+│       └── app.e2e.js     
 │
-├── scripts/ # Scripts e configs de build
-│ ├── compile.sh
-│ └── emscripten_settings.txt
+├── scripts/                     # Scripts e configurações de build
+│   ├── compile.sh
+│   └── emscripten_settings.txt
 │
-├── README.md
-└── LICENSE
-└── structure.md
+├── assets/                      # Imagens de exemplo
+│   ├── exemplo.png
+│   └── resultado.jpg
+│
+├── .github/                     # Configurações do GitHub
+│   └── workflows/
+│       └── ci.yml               # CI/CD (testes, build)
+
+├── README.md                    # README principal (inglês)
+├── README.pt-br.md              # Versão em português
+├── DEVELOPMENT.md               # Diário técnico (inglês)
+├── DEVELOPMENT.pt-br.md         # Diário técnico (português)
+├── LICENSE
+└── structure.md                 # Visão da estrutura do projeto (separado se quiser)

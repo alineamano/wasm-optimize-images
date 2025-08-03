@@ -1,4 +1,4 @@
-import { showNotification } from "../utils/showNotification.js";
+import { showNotification } from "./showNotification.js";
 
 /**
  * The currently active language code (e.g., "en", "pt").

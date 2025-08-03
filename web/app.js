@@ -9,8 +9,8 @@ import {
   showCompressedImage,
 } from "./handlers/modal.js";
 import { getSelectedQuality, setupQualitySlider } from "./handlers/slider.js";
-import { loadLanguage, setupLanguageSelector, t } from "./i18n/translate.js";
 import { showNotification } from "./utils/showNotification.js";
+import { loadLanguage, setupLanguageSelector, t } from "./utils/translate.js";
 
 const compressBtn = $(IDs.compressBtn);
 const languageSelector = $(IDs.languageSelector);

@@ -1,7 +1,7 @@
 import { IDs } from "../constants/ids.js";
-import { t } from "../i18n/translate.js";
 import { $ } from "../utils/dom.js";
 import { showNotification } from "../utils/showNotification.js";
+import { t } from "../utils/translate.js";
 
 import { getCurrentBlobUrl } from "./modal.js";
 
