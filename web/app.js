@@ -6,12 +6,16 @@ import {
   showCompressedImage,
 } from "./handlers/modal.js";
 import { getSelectedQuality, setupQualitySlider } from "./handlers/slider.js";
+import { loadLanguage, setupLanguageSelector } from "./i18n/translate.js";
 
 /**
  * Main application entry point.
  * Initializes event handlers and sets up the image compression workflow.
  */
-function main() {
+async function main() {
+  await loadLanguage("pt");
+  setupLanguageSelector();
+
   setupImageInputHandlers();
   setupQualitySlider();
   setupCloseModalHandler();
