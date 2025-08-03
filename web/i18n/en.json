@@ -11,5 +11,10 @@
   "compressed_size": "Compressed size:",
   "observation_label": "Note:",
   "size_observation": "The compressed image is larger than the original. Try selecting a lower quality to reduce the generated image size.",
-  "download_button": "Download Image"
+  "download_button": "Download Image",
+  "error.no_file": "Please select a file first.",
+  "error.invalid_file": "Invalid file.",
+  "error.unsupported_file": "Unsupported file type.",
+  "error.language_load_fail": "Failed to load language.",
+  "error.no_image_to_download": "No image available for download."
 }

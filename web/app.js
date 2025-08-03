@@ -1,3 +1,6 @@
+import { IDs } from "./constants/ids.js";
+import { $ } from "./utils/dom.js";
+
 import { compressImage } from "./compressImage.js";
 import { setupDownloadHandler } from "./handlers/download.js";
 import { getSelectedFile, setupImageInputHandlers } from "./handlers/input.js";
@@ -6,7 +9,11 @@ import {
   showCompressedImage,
 } from "./handlers/modal.js";
 import { getSelectedQuality, setupQualitySlider } from "./handlers/slider.js";
-import { loadLanguage, setupLanguageSelector } from "./i18n/translate.js";
+import { loadLanguage, setupLanguageSelector, t } from "./i18n/translate.js";
+import { showNotification } from "./utils/showNotification.js";
+
+const compressBtn = $(IDs.compressBtn);
+const languageSelector = $(IDs.languageSelector);
 
 /**
  * Main application entry point.
@@ -21,13 +28,16 @@ async function main() {
   setupCloseModalHandler();
   setupDownloadHandler();
 
-  const compressBtn = document.getElementById("compress-image-btn");
-
   compressBtn.addEventListener("click", async () => {
+    languageSelector.classList.add("hidden");
+
     const file = getSelectedFile();
     const selectedQuality = getSelectedQuality();
 
-    if (!file) return;
+    if (!file) {
+      showNotification(t("error.no_file"));
+      return;
+    }
 
     try {
       const imageBitmap = await createImageBitmap(file);
@@ -58,7 +68,7 @@ async function main() {
       showCompressedImage(blobUrl, file.size, blob.size);
     } catch (error) {
       console.error("Error compressing the image: ", error);
-      alert("An error occurred while compressing the image: ", error);
+      showNotification(t("error.compression_failed"), "error");
     }
   });
 }

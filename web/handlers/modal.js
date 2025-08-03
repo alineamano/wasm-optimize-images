@@ -5,6 +5,7 @@ import { clearSelectedFile } from "./input.js";
 const compressedImagePreview = $(IDs.compressedImagePreview);
 const compressedSizeHtml = $(IDs.compressedSize);
 const downloadBtn = $(IDs.downloadBtn);
+const languageSelector = $(IDs.languageSelector);
 const modalCloseBtn = $(IDs.modalCloseBtn);
 const modalOverlay = $(IDs.modalOverlay);
 const originalSizeHtml = $(IDs.originalSize);
@@ -26,15 +27,13 @@ function revokeCurrentBlobUrl() {
  * Hides the modal and clears the compressed image preview.
  */
 function closeModal() {
-  if (currentBlobUrl) {
-    URL.revokeObjectURL(currentBlobUrl);
-    currentBlobUrl = null;
-  }
+  revokeCurrentBlobUrl();
 
   clearSelectedFile();
 
   modalOverlay.classList.add("hidden");
   sizeObservation.classList.add("hidden");
+  languageSelector.classList.remove("hidden");
   compressedImagePreview.src = "";
 
   originalSizeHtml.textContent = "";
@@ -71,7 +70,7 @@ function formatBytes(bytes) {
  * @param {number} compressedSize - Compressed file size in bytes.
  */
 export function showCompressedImage(blobUrl, originalSize, compressedSize) {
-  if (currentBlobUrl) URL.revokeObjectURL(currentBlobUrl);
+  revokeCurrentBlobUrl();
   currentBlobUrl = blobUrl;
 
   compressedImagePreview.src = blobUrl;

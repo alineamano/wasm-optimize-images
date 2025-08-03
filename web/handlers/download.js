@@ -1,5 +1,7 @@
 import { IDs } from "../constants/ids.js";
+import { t } from "../i18n/translate.js";
 import { $ } from "../utils/dom.js";
+import { showNotification } from "../utils/showNotification.js";
 
 import { getCurrentBlobUrl } from "./modal.js";
 
@@ -26,7 +28,10 @@ function triggerDownload(blobUrl, filename) {
  */
 function handleDownloadClick() {
   const blobUrl = getCurrentBlobUrl();
-  if (!blobUrl) return;
+  if (!blobUrl) {
+    showNotification(t("error.no_image_to_download"), "error");
+    return;
+  }
 
   triggerDownload(blobUrl, "compressed_image.jpg");
 }

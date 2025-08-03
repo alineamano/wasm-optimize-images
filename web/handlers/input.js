@@ -123,7 +123,15 @@ export function setupImageInputHandlers() {
   });
 
   fileInput.addEventListener("change", () => {
-    if (fileInput.files.length > 0) setSelectedFile(fileInput.files[0]);
+    const file = fileInput.files[0];
+    if (!file) return;
+
+    if (!file.type.startsWith("image/")) {
+      showNotification(t("error.unsupported_file"), "error");
+      return;
+    }
+
+    setSelectedFile(file);
   });
 
   removeFileBtn.addEventListener("click", handleRemoveFile);
@@ -146,7 +154,14 @@ export function setupImageInputHandlers() {
     "drop",
     (event) => {
       const files = event.dataTransfer.files;
+
+      if (!files || !files[0]) {
+        showNotification(t("error.invalid_file"), "error");
+        return;
+      }
+
       setSelectedFile(files[0]);
+
       removeDragVisual();
     },
     true

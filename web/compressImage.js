@@ -44,8 +44,6 @@ export async function compressImage(
 ) {
   const wasm = await initWasm();
 
-  console.log("wasm", wasm);
-
   const imageDataLength = rawImageData.length;
   const imageDataPointer = wasm._malloc(imageDataLength);
 
@@ -75,7 +73,7 @@ export async function compressImage(
   if (compressedImagePointer === 0 || compressedImageSize === 0) {
     wasm._free(imageDataPointer);
     wasm._free(outputSizePointer);
-    throw new Error("Falha na compressão da imagem");
+    throw new Error("Failed to compress image.");
   }
 
   // Copy compressed data from WASM memory

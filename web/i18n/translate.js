@@ -1,3 +1,5 @@
+import { showNotification } from "../utils/showNotification.js";
+
 /**
  * The currently active language code (e.g., "en", "pt").
  * @type {string}
@@ -19,10 +21,15 @@ let translations = {};
  * @returns {Promise<void>} A promise that resolves when the translations are loaded and texts updated.
  */
 export async function loadLanguage(lang = "pt") {
-  const response = await fetch(`./i18n/${lang}.json`);
-  translations = await response.json();
-  currentLang = lang;
-  updateTexts();
+  try {
+    const response = await fetch(`./i18n/${lang}.json`);
+    translations = await response.json();
+    currentLang = lang;
+    updateTexts();
+  } catch (error) {
+    console.error("Error to load language", error);
+    showNotification(t("error.language_load_fail"));
+  }
 }
 
 /**
