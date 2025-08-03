@@ -41,6 +41,7 @@ function closeModal() {
   compressedSizeHtml.textContent = "";
 
   downloadBtn.disabled = true;
+  downloadBtn.setAttribute("aria-disabled", "true");
 }
 
 /**
@@ -76,6 +77,7 @@ export function showCompressedImage(blobUrl, originalSize, compressedSize) {
   compressedImagePreview.src = blobUrl;
   modalOverlay.classList.remove("hidden");
   downloadBtn.disabled = false;
+  downloadBtn.setAttribute("aria-disabled", "false");
 
   originalSizeHtml.textContent = formatBytes(originalSize);
   compressedSizeHtml.textContent = formatBytes(compressedSize);

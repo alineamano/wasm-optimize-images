@@ -46,12 +46,15 @@
     <!-- Language Selector -->
     <div
       id="language-selector"
+      role="region"
+      aria-label="Language selector"
       class="fixed top-4 right-4 z-50 flex gap-4 p-2 rounded-lg"
     >
       <button
         data-lang="pt"
         title="Português"
         class="lang-btn text-2xl transition-transform hover:scale-110 cursor-pointer"
+        aria-label="Select Portuguese language"
       >
         🇧🇷
       </button>
@@ -59,6 +62,7 @@
         data-lang="en"
         title="English"
         class="lang-btn text-2xl transition-transform hover:scale-110 cursor-pointer"
+        aria-label="Select English language"
       >
         🇺🇸
       </button>
@@ -83,6 +87,10 @@
       <!-- Image -->
       <div
         id="input-drop-area"
+        for="file-input"
+        tabindex="0"
+        role="button"
+        aria-describedby="drop-instruction supported-formats"
         class="flex flex-col items-center justify-center h-48 w-full border-2 border-dashed border-gray-300 rounded-xl bg-gray-50 hover:bg-gray-100 transition duration-200 cursor-pointer"
       >
         <svg
@@ -97,10 +105,12 @@
           />
         </svg>
         <p
+          id="drop-instruction"
           data-i18n="drop_instruction"
           class="text-sm text-gray-600 text-center"
         ></p>
         <span
+          id="supported-formats"
           data-i18n="supported_formats"
           class="text-xs text-gray-400 mt-1"
         ></span>
@@ -115,6 +125,7 @@
           ></span>
           <button
             id="remove-file-name"
+            aria-label="Remove file"
             class="hidden hover:text-red-500 text-2xl font-black cursor-pointer"
           >
             ×
@@ -140,6 +151,7 @@
           <input
             id="quality-slider"
             type="range"
+            tabindex="0"
             min="1"
             max="100"
             value="90"
@@ -155,6 +167,7 @@
         id="compress-image-btn"
         class="w-full bg-[#3a86ff] hover:bg-[#2c6ae3] text-white font-semibold py-3 rounded-lg shadow-md transition duration-200 uppercase cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
         disabled
+        aria-disabled="true"
       ></button>
     </main>
 
@@ -169,6 +182,7 @@
       >
         <button
           id="modal-close-btn"
+          aria-label="Close modal"
           class="absolute top-6 right-6 text-gray-500 hover:text-gray-800 text-2xl font-black cursor-pointer"
         >
           x
@@ -217,6 +231,7 @@
               id="download-image-btn"
               class="mt-auto w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 rounded-lg transition duration-200 cursor-pointer"
               disabled
+              aria-disabled="true"
             ></button>
           </div>
         </div>

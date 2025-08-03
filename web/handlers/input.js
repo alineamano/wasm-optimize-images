@@ -16,6 +16,10 @@ function refreshFileInputState() {
   const hasFile = fileInput.files.length > 0;
 
   compressBtn.disabled = !hasFile;
+  compressBtn.setAttribute(
+    "aria-disabled",
+    compressBtn.disabled ? "true" : "false"
+  );
 
   if (!hasFile) {
     compressBtn.setAttribute("title", "Adicioneuma imagem para comprimir");
@@ -62,6 +66,20 @@ export function clearSelectedFile() {
 }
 
 /**
+ * Handle both click and keyboard activation (Enter or Space) for removing file.
+ * @param {MouseEvent | KeyboardEvent} event
+ */
+function handleRemoveFile(event) {
+  if (event.type === "keydown" && !(event.key === "Enter" || event.key === " "))
+    return;
+
+  preventDefaults(event);
+  clearSelectedFile();
+
+  inputDropArea.focus();
+}
+
+/**
  * Applies visual styles to the drop area to indicate drag-over state.
  */
 function applyDragVisual() {
@@ -97,14 +115,19 @@ function preventDefaults(event) {
 export function setupImageInputHandlers() {
   inputDropArea.addEventListener("click", () => fileInput.click());
 
+  inputDropArea.addEventListener("keydown", (event) => {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      fileInput.click();
+    }
+  });
+
   fileInput.addEventListener("change", () => {
     if (fileInput.files.length > 0) setSelectedFile(fileInput.files[0]);
   });
 
-  removeFileBtn.addEventListener("click", function (event) {
-    preventDefaults(event);
-    clearSelectedFile();
-  });
+  removeFileBtn.addEventListener("click", handleRemoveFile);
+  removeFileBtn.addEventListener("keydown", handleRemoveFile);
 
   ["dragenter", "dragover", "dragleave", "drop"].forEach((eventName) => {
     inputDropArea.addEventListener(eventName, preventDefaults);
