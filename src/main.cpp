@@ -12,41 +12,37 @@
 #include <emscripten/emscripten.h>
 
 extern "C" {
-  /**
-  * Função callback usada pela stb_image_write para armazenar dados JPEG em memória.
-  *
-  * Parâmetros:
-  * - context: ponteiro para o buffer de saída (std::vector<unsigned char>) onde os dados serão acumulados
-  * - data: ponteiro para os bytes gerados neste pedaço da imagem JPEG
-  * - size: quantidade de bytes em 'data' a serem copiados para o buffer
-  *
-  * Retorno:
-  * - Void (sem retorno), mas acumula os dados JPEG no buffer apontado por 'context'
-  */
 
+  /**
+  * @brief Callback function used by stb_image_write to store JPEG data in memory.
+  * 
+  * This function accumulates JPEG bytes into a buffer.
+  * 
+  * @param context Pointer to the output buffer (std::vector<unsigned char>) to accumulate data.
+  * @param data Pointer to the bytes generated in this JPEG chunk.
+  * @param size Number of bytes in 'data' to copy to the buffer.
+  */
   void writeToBuffer(void* context, void* data, int size) {
     std::vector<unsigned char>* buffer = static_cast<std::vector<unsigned char>*>(context);
     unsigned char* bytes = static_cast<unsigned char*>(data);
-    // buffer->insert(), adiciona no final do vetor todos os bytes que vão do ponteiro bytes até bytes + size (não inclusivo), ou seja, copia exatamente size bytes para o final do vetor
+    // buffer->insert(): appends 'size' bytes from 'bytes' into the vector
     buffer->insert(buffer->end(), bytes, bytes + size);
   }
 
   /**
-  * Função que comprime uma RGB(A) para JPEG em memória usando stb_image_write.
-  *
-  * Parâmetros:
-  * - rawImageData: ponteiro para os bytes da imagem (RGBA ou RGB)
-  * - width: largura da imagem
-  * - height: altura da imagem
-  * - channels: número de canais (geralmente 3 ou 4)
-  * - desiredQuality: qualidade JPEG (1 a 100)
-  * - outputSize: ponteiro onde será armazenado o tamanho do JPG gerado
-  *
-  * Retorno:
-  * - Ponteiro para os dados JPG gerados (alocados com malloc)
-  * - Deve ser liberado com `freeCompressedImage()` no JS após o uso
+  * @brief Compress an RGB(A) image to JPEG in memory using stb_image_write.
+  * 
+  * @param rawImageData Pointer to the raw image bytes (RGBA or RGB).
+  * @param width Image width.
+  * @param height Image height.
+  * @param channels Number of channels (usually 3 or 4).
+  * @param desiredQuality JPEG quality (1 to 100).
+  * @param outputSize Pointer to an int where the size of the generated JPG will be stored.
+  * 
+  * @return Pointer to the generated JPG data (allocated with malloc).
+  *         Must be freed using `freeCompressedImage()` in JS after use.
+  *         Returns nullptr on failure.
   */
-
   EMSCRIPTEN_KEEPALIVE
   unsigned char* compressImageToJpg(
     unsigned char* rawImageData, 
@@ -60,7 +56,6 @@ extern "C" {
       return nullptr;
     }
 
-    // Cria vetores dinamicos vazios para armazenar os bytes da imagem JPG gerada. Esse buffer vai receber os dados conforme a imagem for comprimida.
     std::vector<unsigned char> jpegBuffer;
     std::vector<unsigned char> rgbImageData;
 
@@ -68,7 +63,7 @@ extern "C" {
 
     unsigned char* pixelData = rawImageData;
 
-    // Converte RGBA para RGB se necessário - JPEG não suporta canal alfa (transparência)
+    // Convert RGBA to RGB if needed (JPEG does not support alpha channel)
     if (channels == 4) {
       rgbImageData.resize(width * height * desiredChannels);
 
@@ -77,59 +72,53 @@ extern "C" {
         rgbImageData[destIndex + 1] = rawImageData[srcIndex + 1]; // G
         rgbImageData[destIndex + 2] = rawImageData[srcIndex + 2]; // B
       }
-      // .data() retorna um ponteiro para o primeiro elemento do vetor, ou seja, um unsigned char* 
+      // .data() returns a pointer to the underlying buffer (unsigned char*)
       pixelData = rgbImageData.data();
     }
 
-    // Gera um JPEG em memória e chama uma função callback para enviar os dados gerados pedaço a pedaço
+    // Write JPEG data to memory using the custom callback
     bool success = stbi_write_jpg_to_func(
-      writeToBuffer,       // função callback que será chamada toda vez que gerar um bloco de bytes
-      &jpegBuffer,         // ponteiro que será passado para o callback, serve como contexto para que o callback saiba onde guardar os dados
+      writeToBuffer,      // Callback function for writing JPEG chunks
+      &jpegBuffer,        // Context passed to the callback (output buffer)
       width,
       height,
-      desiredChannels,     // para JPEG deve ser 3 (RGB)
-      pixelData,           // ponteiro para os dados da imagem original
-      desiredQuality       // qualidade JPEG de 1 a 100
+      desiredChannels,    // JPEG requires 3 channels (RGB)
+      pixelData,          // Pointer to source image data
+      desiredQuality      // Compression quality
     );
 
     if (!success) {
-      printf("Falha ao comprimir imagem.\n");
-      *outputSize = 0;      // Indica que a compressão falhou, tamanho zero
+      printf("Failed to compress image.\n");
+      *outputSize = 0;    // Indicates compression failure (no data written)
       return nullptr;
     }
 
-    // Se sucesso, copia os dados do vetor para buffer C (malloc)
+    // Allocate memory for the compressed output
     unsigned char* compressedData = (unsigned char*) malloc(jpegBuffer.size());
 
     if (!compressedData) {
-      std::cerr << "Falha ao alocar memória para imagem comprimida." << std::endl;
-      *outputSize = 0;      // Falha na alocação
+      std::cerr << "Failed to allocate memory for compressed image.\n";
+      *outputSize = 0;    // Allocation failure — return size 0
       return nullptr;
     }
 
-    // Copia os bytes do std::vector para o buffer mallocado
+    // Copy data from std::vector to raw buffer
     memcpy(compressedData, jpegBuffer.data(), jpegBuffer.size());
     
-    // Armazena o tamanho no local apontado por outputSize
+    // Store the output size in the provided pointer
     *outputSize = static_cast<int>(jpegBuffer.size());
 
     return compressedData;
   }
 
   /**
-  * Função que libera a memória alocada para uma imagem JPG comprimida (imagem gerada por `compressImageToJpg`).
-  *
-  * Parâmetros:
-  * - data: ponteiro para os dados JPG previamente alocados com `malloc`
-  *
-  * Retorno:
-  * - Void (sem retorno). A memória apontada por 'data' é liberada com free().
-  *
-  * Observação:
-  * - Essa função é necessária pois o `malloc` foi feito no lado C++ e o
-  *   JavaScript não pode liberar essa memória diretamente.
-  */
-
+ * @brief Frees memory allocated for a compressed JPEG image (generated by `compressImageToJpg`).
+ * 
+ * @param data Pointer to the JPEG data previously allocated with malloc.
+ * 
+ * This function must be used because the malloc is done on the C++ side,
+ * and JavaScript cannot free this memory directly.
+ */
   EMSCRIPTEN_KEEPALIVE
   void freeCompressedImage(unsigned char* data) {
     free(data);
