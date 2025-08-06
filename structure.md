@@ -29,12 +29,12 @@ wasm-optimize-images/
 │   └── compress.js
 │
 ├── tests/                       # Testes unitários, integração e end-to-end
-│   ├── unit/
-│   │   └── compressImage.test.js
-│   └── integration/
-│       └── compress-flow.test.js
-│   └── e2e/               
-│       └── app.e2e.js     
+│   ├── download.test.js
+│   ├── input.test.js
+│   ├── modal.test.js
+│   ├── showNotification.test.js            
+│   ├── slider.test.js
+│   └── translate.test.js   
 │
 ├── scripts/                     # Scripts e configurações de build
 │   ├── compile.sh
@@ -47,7 +47,8 @@ wasm-optimize-images/
 ├── .github/                     # Configurações do GitHub
 │   └── workflows/
 │       └── ci.yml               # CI/CD (testes, build)
-
+│
+├── .gitignore
 ├── README.md                    # README principal (inglês)
 ├── README.pt-br.md              # Versão em português
 ├── DEVELOPMENT.md               # Diário técnico (inglês)

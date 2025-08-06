@@ -5,15 +5,13 @@ import { t } from "../utils/translate.js";
 
 import { getCurrentBlobUrl } from "./modal.js";
 
-const downloadBtn = $(IDs.downloadBtn);
-
 /**
  * Triggers the download of a file from the given blob URL.
  *
  * @param {string} blobUrl - The Blob URL to download.
  * @param {string} filename - The filename to use for the downloaded file.
  */
-function triggerDownload(blobUrl, filename) {
+export function triggerDownload(blobUrl, filename) {
   const link = document.createElement("a");
   link.href = blobUrl;
   link.download = filename;
@@ -26,9 +24,11 @@ function triggerDownload(blobUrl, filename) {
 /**
  * Handles the download button click event.
  */
-function handleDownloadClick() {
+export function handleDownloadClick() {
   const blobUrl = getCurrentBlobUrl();
+  console.log("blobUrl =", blobUrl);
   if (!blobUrl) {
+    console.log("entrou aqui");
     showNotification(t("error.no_image_to_download"), "error");
     return;
   }
@@ -40,5 +40,7 @@ function handleDownloadClick() {
  * Sets up the event handler for downloading the compressed image.
  */
 export function setupDownloadHandler() {
+  const downloadBtn = $(IDs.downloadBtn);
+
   downloadBtn.addEventListener("click", handleDownloadClick);
 }

@@ -4,14 +4,14 @@ import { showNotification } from "./showNotification.js";
  * The currently active language code (e.g., "en", "pt").
  * @type {string}
  */
-let currentLang = "pt";
+export let currentLang = "pt";
 
 /**
  * An object containing key-value pairs for translated strings.
  * Keys are translation identifiers (e.g., "title"), and values are the translated texts.
  * @type {Object.<string, string>}
  */
-let translations = {};
+export let translations = {};
 
 /**
  * Loads the translation JSON file for the specified language and updates the UI texts.
@@ -88,7 +88,6 @@ export function setupLanguageSelector() {
     });
   });
 
-  // Set active button on load
   updateActiveButton(buttons, currentLang);
 }
 
@@ -99,7 +98,7 @@ export function setupLanguageSelector() {
  * @param {string} activeLang - The currently active language code.
  * @returns {void}
  */
-function updateActiveButton(buttons, activeLang) {
+export function updateActiveButton(buttons, activeLang) {
   buttons.forEach((btn) => {
     if (btn.dataset.lang === activeLang) {
       btn.classList.add("scale-120");
@@ -107,4 +106,13 @@ function updateActiveButton(buttons, activeLang) {
       btn.classList.remove("scale-120");
     }
   });
+}
+
+/**
+ * Test helper: sets the translations object for testing purposes.
+ *
+ * @param {Object.<string, string>} newTranslations - New translations to set.
+ */
+export function _setTranslations(newTranslations) {
+  translations = newTranslations;
 }

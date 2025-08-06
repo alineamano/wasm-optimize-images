@@ -12,7 +12,7 @@ const compressBtn = $(IDs.compressBtn);
  * Enables or disables the compress button, updates the filename display,
  * and toggles the visibility of the remove file button.
  */
-function refreshFileInputState() {
+export function refreshFileInputState() {
   const hasFile = fileInput.files.length > 0;
 
   compressBtn.disabled = !hasFile;
@@ -40,6 +40,8 @@ function refreshFileInputState() {
  * @returns {File|null} The selected file, or null if none is selected.
  */
 export function getSelectedFile() {
+  const fileInput = $(IDs.fileInput);
+
   return fileInput.files.length > 0 ? fileInput.files[0] : null;
 }
 
@@ -49,7 +51,7 @@ export function getSelectedFile() {
  *
  * @param {File} file - The file to set as selected.
  */
-function setSelectedFile(file) {
+export function setSelectedFile(file) {
   const dataTransfer = new DataTransfer();
   dataTransfer.items.add(file);
   fileInput.files = dataTransfer.files;
@@ -61,6 +63,8 @@ function setSelectedFile(file) {
  * Clears the currently selected file from the input and updates the UI.
  */
 export function clearSelectedFile() {
+  const fileInput = $(IDs.fileInput);
+
   fileInput.value = "";
   refreshFileInputState();
 }
@@ -69,7 +73,7 @@ export function clearSelectedFile() {
  * Handle both click and keyboard activation (Enter or Space) for removing file.
  * @param {MouseEvent | KeyboardEvent} event
  */
-function handleRemoveFile(event) {
+export function handleRemoveFile(event) {
   if (event.type === "keydown" && !(event.key === "Enter" || event.key === " "))
     return;
 
@@ -82,7 +86,9 @@ function handleRemoveFile(event) {
 /**
  * Applies visual styles to the drop area to indicate drag-over state.
  */
-function applyDragVisual() {
+export function applyDragVisual() {
+  const inputDropArea = $(IDs.inputDropArea);
+
   inputDropArea.style.borderColor = "#3a86ff";
   inputDropArea.style.background = "#f3f4f6";
 }
@@ -90,7 +96,9 @@ function applyDragVisual() {
 /**
  * Removes visual drag-over styles from the drop area.
  */
-function removeDragVisual() {
+export function removeDragVisual() {
+  const inputDropArea = $(IDs.inputDropArea);
+
   inputDropArea.style.borderColor = "#d1d5dc";
   inputDropArea.style.background = "";
 }
@@ -100,7 +108,7 @@ function removeDragVisual() {
  *
  * @param {Event} event - The event to prevent.
  */
-function preventDefaults(event) {
+export function preventDefaults(event) {
   event.preventDefault();
   event.stopPropagation();
 }
@@ -113,6 +121,10 @@ function preventDefaults(event) {
  * - Drag-and-drop handling
  */
 export function setupImageInputHandlers() {
+  const inputDropArea = $(IDs.inputDropArea);
+  const fileInput = $(IDs.fileInput);
+  const removeFileBtn = $(IDs.removeFileBtn);
+
   inputDropArea.addEventListener("click", () => fileInput.click());
 
   inputDropArea.addEventListener("keydown", (event) => {

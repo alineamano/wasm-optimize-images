@@ -3,8 +3,6 @@ import { $ } from "../utils/dom.js";
 
 let hideTimeout;
 
-const notification = $(IDs.notification);
-
 /**
  * Displays a toast-style notification message on the screen.
  *
@@ -14,6 +12,8 @@ const notification = $(IDs.notification);
  * @returns {void}
  */
 export function showNotification(message, type = "error", duration = 4000) {
+  const notification = $(IDs.notification);
+
   notification.textContent = message;
 
   notification.classList.remove("hidden");
@@ -22,6 +22,7 @@ export function showNotification(message, type = "error", duration = 4000) {
   notification.classList.add(type === "error" ? "bg-red-500" : "bg-green-500");
 
   clearTimeout(hideTimeout);
+
   hideTimeout = setTimeout(() => {
     notification.classList.add("hidden");
   }, duration);

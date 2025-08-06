@@ -6,7 +6,6 @@ const compressedImagePreview = $(IDs.compressedImagePreview);
 const compressedSizeHtml = $(IDs.compressedSize);
 const downloadBtn = $(IDs.downloadBtn);
 const languageSelector = $(IDs.languageSelector);
-const modalCloseBtn = $(IDs.modalCloseBtn);
 const modalOverlay = $(IDs.modalOverlay);
 const originalSizeHtml = $(IDs.originalSize);
 const sizeObservation = $(IDs.sizeObservation);
@@ -16,7 +15,7 @@ let currentBlobUrl = null;
 /**
  * Releases the current blob URL to free memory.
  */
-function revokeCurrentBlobUrl() {
+export function revokeCurrentBlobUrl() {
   if (currentBlobUrl) {
     URL.revokeObjectURL(currentBlobUrl);
     currentBlobUrl = null;
@@ -26,7 +25,7 @@ function revokeCurrentBlobUrl() {
 /**
  * Hides the modal and clears the compressed image preview.
  */
-function closeModal() {
+export function closeModal() {
   revokeCurrentBlobUrl();
 
   clearSelectedFile();
@@ -47,6 +46,8 @@ function closeModal() {
  * Sets up the modal close button to hide the modal and reset image preview and size info.
  */
 export function setupCloseModalHandler() {
+  const modalCloseBtn = $(IDs.modalCloseBtn);
+
   modalCloseBtn.addEventListener("click", closeModal);
 }
 
@@ -56,7 +57,7 @@ export function setupCloseModalHandler() {
  * @param {number} bytes
  * @returns {string}
  */
-function formatBytes(bytes) {
+export function formatBytes(bytes) {
   if (bytes < 1024) return `${bytes} B`;
   if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(2)} KB`;
   return `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
