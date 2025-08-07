@@ -1,11 +1,11 @@
 wasm-optimize-images/
-├── src/                         # Código-fonte C++ (inclui versão legacy e headers)
+├── src/
 │   ├── main.cpp
-│   ├── old_code.cpp             # Código antigo antes do WebAssembly
+│   ├── old_code.cpp
 │   ├── stb_image.h
 │   └── stb_image_write.h
 │
-├── web/                         # Interface web
+├── web/
 │   ├── index.html
 │   ├── app.js
 │   ├── compressImage.js
@@ -24,34 +24,44 @@ wasm-optimize-images/
 │       ├── en.json
 │       └── pt.json
 │
-├── dist/                        # Saída do build WebAssembly
+├── dist/
 │   ├── compress.wasm
 │   └── compress.js
 │
-├── tests/                       # Testes unitários, integração e end-to-end
+├── tests/
 │   ├── download.test.js
 │   ├── input.test.js
 │   ├── modal.test.js
 │   ├── showNotification.test.js            
 │   ├── slider.test.js
-│   └── translate.test.js   
+│   └── translate.test.js
+│   └── e2e/                     
+│       └── image-flow.spec.js   
 │
-├── scripts/                     # Scripts e configurações de build
+├── scripts/
 │   ├── compile.sh
 │   └── emscripten_settings.txt
 │
-├── assets/                      # Imagens de exemplo
-│   ├── exemplo.png
-│   └── resultado.jpg
+├── assets/
+│   ├── cataratas_compressed_image_55.jpg
+│   ├── cataratas.png
+│   ├── warrior_compressed_image_85.jpg
+│   ├── warrior_compressed_image.jpg
+│   └── warrior.png
 │
-├── .github/                     # Configurações do GitHub
+├── .github/
 │   └── workflows/
-│       └── ci.yml               # CI/CD (testes, build)
+│       └── ci.yml
 │
 ├── .gitignore
-├── README.md                    # README principal (inglês)
-├── README.pt-br.md              # Versão em português
-├── DEVELOPMENT.md               # Diário técnico (inglês)
-├── DEVELOPMENT.pt-br.md         # Diário técnico (português)
+├── README.md
+├── README.pt-br.md
+├── DEVELOPMENT.md
+├── DEVELOPMENT.pt-br.md
 ├── LICENSE
-└── structure.md                 # Visão da estrutura do projeto (separado se quiser)
+├── package-lock.json
+├── package.json
+├── playwright.config.js
+├── vite.config.js
+├── vitest.config.js
+└── structure.md

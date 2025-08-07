@@ -16,5 +16,6 @@
   "error.invalid_file": "Arquivo inválido.",
   "error.unsupported_file": "Tipo de arquivo não suportado.",
   "error.language_load_fail": "Erro ao carregar idioma.",
-  "error.no_image_to_download": "Nenhuma imagem disponível para download."
+  "error.no_image_to_download": "Nenhuma imagem disponível para download.",
+  "error.compression_failed": "Algo deu errado ao comprimir a imagem. Tente novamente ou use outro arquivo."
 }

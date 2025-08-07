@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { IDs } from "../web/constants/ids.js";
 
 const MESSAGE = "Notification: Testing message";

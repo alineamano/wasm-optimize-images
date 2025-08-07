@@ -1,4 +1,4 @@
-import { describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
 const MOCK_EN_TRANSLATION = {
   title: "Image Optimizer",
@@ -77,7 +77,7 @@ describe("Translate Handler", () => {
     it("should call showNotification and logs error on fetch failure", async () => {
       global.fetch = vi.fn(() => Promise.reject("Network error"));
 
-      document.body.innerHTML = `<div id="notification" class="hidden"></div>`; // ✅ necessário
+      document.body.innerHTML = `<div id="notification" class="hidden"></div>`;
 
       const consoleErrorMock = vi
         .spyOn(console, "error")
