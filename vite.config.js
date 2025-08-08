@@ -11,4 +11,14 @@ export default defineConfig({
     outDir: "../build",
     emptyOutDir: true,
   },
+  plugins: [
+    viteStaticCopy({
+      targets: [
+        {
+          src: "i18n/*",
+          dest: "i18n",
+        },
+      ],
+    }),
+  ],
 });
