@@ -1,0 +1,21 @@
+{
+  "title": "Otimizador de Imagens",
+  "description": "Comprima imagens com qualidade ajustável e salve em formato JPG usando C++",
+  "drop_instruction": "<span class='font-medium text-[#3a86ff]'>Clique</span> ou arraste sua imagem aqui",
+  "supported_formats": "PNG, JPG, JPEG, WEBP, ...",
+  "no_file_supported": "Nenhum arquivo selecionado",
+  "quality_label": "Qualidade da compressão",
+  "compress_button": "Comprimir imagem",
+  "modal_title": "Imagem comprimida!",
+  "original_size": "Tamanho original:",
+  "compressed_size": "Tamanho comprimido:",
+  "observation_label": "Observação:",
+  "size_observation": "A imagem comprimida ficou maior que a original. Tente selecionar uma qualidade menor para reduzir o tamanho da imagem gerada.",
+  "download_button": "Baixar Imagem",
+  "error.no_file": "Selecione um arquivo primeiro.",
+  "error.invalid_file": "Arquivo inválido.",
+  "error.unsupported_file": "Tipo de arquivo não suportado.",
+  "error.language_load_fail": "Erro ao carregar idioma.",
+  "error.no_image_to_download": "Nenhuma imagem disponível para download.",
+  "error.compression_failed": "Algo deu errado ao comprimir a imagem. Tente novamente ou use outro arquivo."
+}

@@ -1,0 +1,21 @@
+{
+  "title": "Image Optimizer",
+  "description": "Compress images with adjustable quality and save in JPG format using C++",
+  "drop_instruction": "<span class='font-medium text-[#3a86ff]'>Click</span> or drag your image here",
+  "supported_formats": "PNG, JPG, JPEG, WEBP, ...",
+  "no_file_supported": "No file selected",
+  "quality_label": "Compression quality",
+  "compress_button": "Compress image",
+  "modal_title": "Image compressed!",
+  "original_size": "Original size:",
+  "compressed_size": "Compressed size:",
+  "observation_label": "Note:",
+  "size_observation": "The compressed image is larger than the original. Try selecting a lower quality to reduce the generated image size.",
+  "download_button": "Download Image",
+  "error.no_file": "Please select a file first.",
+  "error.invalid_file": "Invalid file.",
+  "error.unsupported_file": "Unsupported file type.",
+  "error.language_load_fail": "Failed to load language.",
+  "error.no_image_to_download": "No image available for download.",
+  "error.compression_failed": "Something went wrong while compressing the image. Please try again or use a different file."
+}
