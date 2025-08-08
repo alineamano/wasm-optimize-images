@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!--
+      Content Security Policy (CSP)
+      Protects against XSS, script injection, and misuse of external resources.
+    -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="
+        default-src 'self';
+        script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net;
+        style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+        font-src https://fonts.gstatic.com;
+        img-src 'self' data: blob:;
+        object-src 'none';
+        connect-src 'self' http://127.0.0.1:5500;
+        base-uri 'self';
+      "
+    />
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Otimizador de Imagem</title>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
+
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <style>
+      body {
+        font-family: "Poppins", Helvetica, sans-serif;
+      }
+    </style>
+    <script type="module" crossorigin src="./assets/index-CFZuVo19.js"></script>
+  </head>
+  <body
+    class="bg-[#ffe5d9] bg-gradient-to-br from-[#e0f2ff] via-[#fff0f6] to-[#fef9f3] text-gray-900 flex flex-col items-center justify-center p-4 min-h-screen"
+  >
+    <!-- Language Selector -->
+    <div
+      id="language-selector"
+      role="region"
+      aria-label="Language selector"
+      class="fixed top-4 right-4 z-50 flex gap-4 p-2 rounded-lg"
+    >
+      <button
+        data-lang="pt"
+        title="Português"
+        class="lang-btn text-2xl transition-transform hover:scale-110 cursor-pointer"
+        aria-label="Select Portuguese language"
+      >
+        🇧🇷
+      </button>
+      <button
+        data-lang="en"
+        title="English"
+        class="lang-btn text-2xl transition-transform hover:scale-110 cursor-pointer"
+        aria-label="Select English language"
+      >
+        🇺🇸
+      </button>
+    </div>
+
+    <!-- Notification -->
+    <div
+      id="notification"
+      class="hidden fixed top-4 left-1/2 transform -translate-x-1/2 bg-red-500 text-white px-4 py-2 rounded shadow-lg z-50"
+      role="alert"
+      aria-live="assertive"
+    ></div>
+
+    <!-- Main -->
+    <main
+      class="w-full max-w-xl bg-white rounded-2xl shadow-lg p-6 space-y-6"
+      style="box-shadow: 2px 2px 8px rgba(255, 151, 112, 0.4)"
+    >
+      <h1
+        data-i18n="title"
+        class="text-4xl sm:text-6xl font-bold text-center text-[#ff70a6] leading-tight"
+        style="text-shadow: 2px 2px 6px rgba(255, 151, 112, 0.4)"
+      ></h1>
+
+      <p
+        data-i18n="description"
+        class="text-center text-gray-600 text-base"
+      ></p>
+
+      <!-- Image -->
+      <div
+        id="input-drop-area"
+        for="file-input"
+        tabindex="0"
+        role="button"
+        aria-describedby="drop-instruction supported-formats"
+        class="flex flex-col items-center justify-center h-48 w-full border-2 border-dashed border-gray-300 rounded-xl bg-gray-50 hover:bg-gray-100 transition duration-200 cursor-pointer"
+      >
+        <svg
+          class="w-12 h-12 text-gray-400 mb-2"
+          viewBox="0 0 24 24"
+          fill="currentColor"
+        >
+          <path
+            d="M1.5 6a2.25 2.25 0 0 1 2.25-2.25h16.5A2.25 2.25 0 0 1 22.5 6v12a2.25 2.25 0 0 1-2.25 2.25H3.75A2.25 2.25 0 0 1 1.5 18V6ZM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0 0 21 18v-1.94l-2.69-2.689a1.5 1.5 0 0 0-2.12 0l-.88.879.97.97a.75.75 0 1 1-1.06 1.06l-5.16-5.159a1.5 1.5 0 0 0-2.12 0L3 16.061Zm10.125-7.81a1.125 1.125 0 1 1 2.25 0 1.125 1.125 0 0 1-2.25 0Z"
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+          />
+        </svg>
+        <p
+          id="drop-instruction"
+          data-i18n="drop_instruction"
+          class="text-sm text-gray-600 text-center"
+        ></p>
+        <span
+          id="supported-formats"
+          data-i18n="supported_formats"
+          class="text-xs text-gray-400 mt-1"
+        ></span>
+        <div
+          id="file-name-info"
+          class="mt-2 flex items-center gap-2 text-xs text-gray-500 h-8"
+        >
+          <span
+            data-i18n="no_file_supported"
+            id="file-name"
+            class="truncate max-w-[200px]"
+          ></span>
+          <button
+            id="remove-file-name"
+            aria-label="Remove file"
+            class="hidden hover:text-red-500 text-2xl font-black cursor-pointer"
+          >
+            ×
+          </button>
+        </div>
+      </div>
+      <input
+        id="file-input"
+        type="file"
+        accept="image/*"
+        class="hidden"
+        required
+      />
+
+      <!-- Slider -->
+      <div>
+        <label
+          data-i18n="quality_label"
+          for="quality-slider"
+          class="block text-sm font-medium text-gray-700 mb-1"
+        ></label>
+        <div class="flex items-center gap-3">
+          <input
+            id="quality-slider"
+            type="range"
+            tabindex="0"
+            min="1"
+            max="100"
+            value="90"
+            class="w-full accent-[#3a86ff]"
+          />
+          <span id="quality-value" class="text-sm text-gray-600">90</span>
+        </div>
+      </div>
+
+      <!-- Compress Button-->
+      <button
+        data-i18n="compress_button"
+        id="compress-image-btn"
+        data-testid="compress-btn"
+        class="w-full bg-[#3a86ff] hover:bg-[#2c6ae3] text-white font-semibold py-3 rounded-lg shadow-md transition duration-200 uppercase cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+        disabled
+        aria-disabled="true"
+      ></button>
+    </main>
+
+    <!-- Modal -->
+    <div
+      id="modal-overlay"
+      class="fixed inset-0 bg-black/50 flex items-center justify-center hidden px-4 sm:px-6"
+    >
+      <div
+        id="modal"
+        class="bg-white rounded-xl p-6 w-full max-w-4xl mx-auto relative pt-8"
+      >
+        <button
+          id="modal-close-btn"
+          data-testid="modal-close-btn"
+          aria-label="Close modal"
+          class="absolute top-6 right-6 text-gray-500 hover:text-gray-800 text-2xl font-black cursor-pointer"
+        >
+          x
+        </button>
+        <div
+          id="modal-content"
+          class="flex flex-col items-stretch md:flex-row gap-8 p-6 pt-8 rounded-xl w-full max-w-4xl mx-auto"
+        >
+          <!-- Left Image -->
+          <img
+            id="compressed-image-preview"
+            class="w-full md:w-[55%] rounded-lg object-contain max-h-[400px] max-w-[400px] self-center"
+            alt="Compressed image preview"
+          />
+
+          <!-- Right Infos -->
+          <div class="flex flex-col w-full md:w-[45%]">
+            <!-- Title -->
+            <h2
+              data-i18n="modal_title"
+              class="text-2xl font-bold text-gray-800 mb-4"
+            ></h2>
+
+            <!-- Size Infos -->
+            <div
+              id="compression-info"
+              class="text-base text-gray-700 mb-6 space-y-2"
+            >
+              <p>
+                <strong data-i18n="original_size"></strong>
+                <span id="original-size" class="text-gray-600"></span>
+              </p>
+              <p>
+                <strong data-i18n="compressed_size"></strong>
+                <span id="compressed-size" class="text-gray-600"></span>
+              </p>
+              <p id="size-observation" class="hidden">
+                <strong data-i18n="observation_label"></strong>
+                <span data-i18n="size_observation"></span>
+              </p>
+            </div>
+
+            <!-- Download Button -->
+            <button
+              data-i18n="download_button"
+              id="download-image-btn"
+              data-testid="download-btn"
+              class="mt-auto w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 rounded-lg transition duration-200 cursor-pointer"
+              disabled
+              aria-disabled="true"
+            ></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Script main -->
+  </body>
+</html>
