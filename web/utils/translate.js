@@ -26,6 +26,10 @@ export async function loadLanguage(lang = "pt") {
     translations = await response.json();
     currentLang = lang;
     updateTexts();
+
+    window.umami?.track("language_changed", {
+      language: lang,
+    });
   } catch (error) {
     console.error("Error to load language", error);
     showNotification(t("error.language_load_fail"));

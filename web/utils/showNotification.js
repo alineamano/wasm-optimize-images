@@ -12,6 +12,12 @@ let hideTimeout;
  * @returns {void}
  */
 export function showNotification(message, type = "error", duration = 4000) {
+  window.umami?.track("show_notification", {
+    message,
+    type,
+    duration,
+  });
+
   const notification = $(IDs.notification);
 
   notification.textContent = message;

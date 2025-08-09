@@ -10,7 +10,9 @@ const sliderValue = $(IDs.sliderValue);
  */
 export function setupQualitySlider() {
   slider.addEventListener("input", (event) => {
-    sliderValue.textContent = event.target.value;
+    const quality = event.target.value;
+    sliderValue.textContent = quality;
+    window.umami?.track("quality_changed", { quality });
   });
 }
 

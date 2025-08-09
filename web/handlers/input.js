@@ -80,6 +80,8 @@ export function handleRemoveFile(event) {
   preventDefaults(event);
   clearSelectedFile();
 
+  window.umami?.track("file_removed");
+
   inputDropArea.focus();
 }
 
@@ -125,7 +127,10 @@ export function setupImageInputHandlers() {
   const fileInput = $(IDs.fileInput);
   const removeFileBtn = $(IDs.removeFileBtn);
 
-  inputDropArea.addEventListener("click", () => fileInput.click());
+  inputDropArea.addEventListener("click", () => {
+    window.umami?.track("input_droparea_clicked");
+    fileInput.click();
+  });
 
   inputDropArea.addEventListener("keydown", (event) => {
     if (event.key === "Enter" || event.key === " ") {
@@ -142,6 +147,8 @@ export function setupImageInputHandlers() {
       showNotification(t("error.unsupported_file"), "error");
       return;
     }
+
+    window.umami?.track("file_selected");
 
     setSelectedFile(file);
   });
@@ -175,6 +182,8 @@ export function setupImageInputHandlers() {
       setSelectedFile(files[0]);
 
       removeDragVisual();
+
+      window.umami?.track("input_droparea_dropped");
     },
     true
   );

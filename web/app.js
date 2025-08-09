@@ -15,11 +15,23 @@ import { loadLanguage, setupLanguageSelector, t } from "./utils/translate.js";
 const compressBtn = $(IDs.compressBtn);
 const languageSelector = $(IDs.languageSelector);
 
+function loadUmami() {
+  if (import.meta.env.PROD) {
+    const umamiScript = document.createElement("script");
+    umamiScript.defer = true;
+    umamiScript.src = import.meta.env.VITE_UMAMI_URL;
+    umamiScript.setAttribute("data-website-id", import.meta.env.VITE_UMAMI_ID);
+    document.head.appendChild(umamiScript);
+  }
+}
+
 /**
  * Main application entry point.
  * Initializes event handlers and sets up the image compression workflow.
  */
 async function main() {
+  loadUmami();
+
   await loadLanguage("pt");
   setupLanguageSelector();
 
@@ -33,6 +45,11 @@ async function main() {
 
     const file = getSelectedFile();
     const selectedQuality = getSelectedQuality();
+
+    window.umami?.track("compress_btn_clicked", {
+      file,
+      select_quality: selectedQuality,
+    });
 
     if (!file) {
       showNotification(t("error.no_file"));

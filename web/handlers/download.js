@@ -26,12 +26,17 @@ export function triggerDownload(blobUrl, filename) {
  */
 export function handleDownloadClick() {
   const blobUrl = getCurrentBlobUrl();
-  console.log("blobUrl =", blobUrl);
+
   if (!blobUrl) {
-    console.log("entrou aqui");
+    window.umami?.track("download_clicked_error", {
+      error: t("error.no_image_to_download"),
+    });
+
     showNotification(t("error.no_image_to_download"), "error");
     return;
   }
+
+  window.umami?.track("download_clicked", { blobUrl });
 
   triggerDownload(blobUrl, "compressed_image.jpg");
 }

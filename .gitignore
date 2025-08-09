@@ -6,3 +6,6 @@ coverage
 
 # Build
 build
+
+# Env
+.env.production
