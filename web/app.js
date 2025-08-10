@@ -15,6 +15,13 @@ import { loadLanguage, setupLanguageSelector, t } from "./utils/translate.js";
 const compressBtn = $(IDs.compressBtn);
 const languageSelector = $(IDs.languageSelector);
 
+/**
+ * Dynamically loads the Umami analytics script in production environment.
+ *
+ * - Checks if the environment is production.
+ * - Creates a deferred <script> element with Umami URL and website ID.
+ * - Appends the script to the document head to enable analytics tracking.
+ */
 function loadUmami() {
   if (import.meta.env.PROD) {
     const umamiScript = document.createElement("script");
@@ -39,6 +46,11 @@ async function main() {
   setupQualitySlider();
   setupCloseModalHandler();
   setupDownloadHandler();
+
+  if (!import.meta.env.PROD) {
+    const module = await import("./benchmark/runner.js");
+    window.runBenchmarkAndLog = module.runBenchmarkAndLog;
+  }
 
   compressBtn.addEventListener("click", async () => {
     languageSelector.classList.add("hidden");
@@ -70,6 +82,15 @@ async function main() {
       const imagePixelData = ctx.getImageData(0, 0, imageWidth, imageHeight);
       const rawImagePixelsData = imagePixelData.data;
       const channels = rawImagePixelsData.length / (imageWidth * imageHeight);
+
+      if (!import.meta.env.PROD) {
+        window.rawImagePixelsData = rawImagePixelsData;
+        window.imageWidth = imageWidth;
+        window.imageHeight = imageHeight;
+        window.channels = channels;
+        window.selectedQuality = selectedQuality;
+        window.originalFileSize = file.size;
+      }
 
       const compressedJpegImg = await compressImage(
         new Uint8Array(rawImagePixelsData.buffer),
