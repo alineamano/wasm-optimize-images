@@ -1,6 +1,10 @@
 <h1 align="center">📦 Otimizador de Imagens no Navegador (WASM + C++)</h1>
 
 <p align="center">
+  <a href="README.pt-br.md">🇧🇷 Português</a> | <a href="README.md">🇺🇸 English</a>
+</p>
+
+<p align="center">
   Projeto pessoal que permite otimizar imagens no navegador usando <strong>WebAssembly</strong> com <strong>C++</strong>, buscando performance e privacidade, sem depender de servidores externos.
 </p>
 
@@ -95,7 +99,7 @@ Essa experiência reforça que o uso de WebAssembly deve ser cuidadosamente aval
 
 
 ## 🚀 Demo Online
-🔗 **Acesse aqui:** [Otimizador de Imagens (WASM + C++)](hhttps://alineamano.github.io/wasm-optimize-images/)  
+🔗 **Acesse aqui:** [Otimizador de Imagens (WASM + C++)](https://alineamano.github.io/wasm-optimize-images/)  
 
 <p>
   <em>* Analytics via <a href="https://umami.is" target="_blank">Umami</a> self-hosted no Vercel</em>

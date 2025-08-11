@@ -1,6 +1,10 @@
 <h1 align="center">📦 Image Optimizer in the Browser (WASM + C++)</h1>
 
 <p align="center">
+  <a href="README.pt-br.md">🇧🇷 Português</a> | <a href="README.md">🇺🇸 English</a>
+</p>
+
+<p align="center">
   Personal project that enables image optimization directly in the browser using <strong>WebAssembly</strong> with <strong>C++</strong>, aiming for performance and privacy, without relying on external servers.
 </p>
 
@@ -11,6 +15,7 @@
   <img src="https://img.shields.io/badge/TailwindCSS-CSS-blue" alt="TailwindCSS">
   <img src="https://img.shields.io/badge/Coverage-64%25-yellow" alt="Coverage">
 </p>
+
 
 
 ## 📷 Screenshots
