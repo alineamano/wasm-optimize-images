@@ -9,6 +9,18 @@ export default defineConfig({
     exclude: ["dist", "node_modules", "tests/e2e"],
     coverage: {
       reporter: ["text", "html"],
+      exclude: [
+        "node_modules/**",
+        "build/**",
+        "dist/**",
+        "coverage/**",
+        "playwright.config.js",
+        "vite.config.js",
+        "vitest.config.js",
+        "scripts/**",
+        "web/benchmark",
+        "tests/e2e",
+      ],
     },
   },
 });
