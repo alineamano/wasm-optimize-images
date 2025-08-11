@@ -13,25 +13,32 @@ const compressBtn = $(IDs.compressBtn);
  * and toggles the visibility of the remove file button.
  */
 export function refreshFileInputState() {
-  const hasFile = fileInput.files.length > 0;
+  const fileInput = $(IDs.fileInput);
+  const compressBtn = $(IDs.compressBtn);
 
-  compressBtn.disabled = !hasFile;
-  compressBtn.setAttribute(
-    "aria-disabled",
-    compressBtn.disabled ? "true" : "false"
-  );
+  const hasFile = fileInput?.files?.length > 0;
 
-  if (!hasFile) {
-    compressBtn.setAttribute("title", "Adicioneuma imagem para comprimir");
-  } else {
-    compressBtn.removeAttribute("title");
+  if (compressBtn) {
+    compressBtn.disabled = !hasFile;
+    compressBtn.setAttribute(
+      "aria-disabled",
+      compressBtn.disabled ? "true" : "false"
+    );
+
+    if (!hasFile) {
+      compressBtn.setAttribute("title", "Adicioneuma imagem para comprimir");
+    } else {
+      compressBtn.removeAttribute("title");
+    }
   }
 
-  fileName.textContent = hasFile
-    ? fileInput.files[0].name
-    : "Nenhum arquivo selecionado";
+  if (fileName) {
+    fileName.textContent = hasFile
+      ? fileInput?.files[0].name
+      : "Nenhum arquivo selecionado";
+  }
 
-  removeFileBtn.classList.toggle("hidden", !hasFile);
+  removeFileBtn?.classList?.toggle("hidden", !hasFile);
 }
 
 /**
