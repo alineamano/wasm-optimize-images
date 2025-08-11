@@ -1,3 +1,4 @@
+import { refreshFileInputState } from "../handlers/input.js";
 import { showNotification } from "./showNotification.js";
 
 /**
@@ -65,6 +66,8 @@ export function updateTexts() {
       } else {
         element.textContent = translated;
       }
+
+      refreshFileInputState();
     }
   });
 }
