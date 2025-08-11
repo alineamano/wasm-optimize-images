@@ -9,3 +9,6 @@ build
 
 # Env
 .env.production
+
+# Development Process
+DEVELOPMENT.md
