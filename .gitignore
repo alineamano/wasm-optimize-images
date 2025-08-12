@@ -8,7 +8,8 @@ coverage
 build
 
 # Env
-.env.production
+web/.env.production
+web/.env
 
 # Development Process
 DEVELOPMENT.md

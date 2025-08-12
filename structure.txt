@@ -69,8 +69,8 @@ wasm-optimize-images/
 ├── .gitignore
 ├── README.md
 ├── README.pt-br.md
-├── DEVELOPMENT.md
-├── DEVELOPMENT.pt-br.md
+├── DEVLOG.md
+├── DEVLOG.pt-br.md
 ├── LICENSE
 ├── package-lock.json
 ├── package.json
