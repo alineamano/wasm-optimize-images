@@ -98,7 +98,7 @@ This experience reinforces that using WebAssembly should be carefully evaluated 
 🔗 **Access here:** [Image Optimizer (WASM + C++)](https://alineamano.github.io/wasm-optimize-images/)  
 
 <p>
-  <em>* Analytics powered by <a href="https://umami.is/" target="_blank">Umami</a>, self-hosted on Vercel</em>
+  <em>* Analytics powered by Google Analytics</em>
 </p>
 
 

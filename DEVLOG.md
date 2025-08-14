@@ -25,6 +25,7 @@ The images I had were larger than allowed, and instead of using a random (and un
 - **GitHub Pages** → deployment.
 - **Umami** → analytics (self-hosted).
 - **Supabase + Vercel** → backend for Umami.
+- **GA4** → change analytics from Umami to GA4.
 
 
 ## 3. Development Process

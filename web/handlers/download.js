@@ -28,15 +28,21 @@ export function handleDownloadClick() {
   const blobUrl = getCurrentBlobUrl();
 
   if (!blobUrl) {
-    window.umami?.track("download_clicked_error", {
-      error: t("error.no_image_to_download"),
-    });
+    if (import.meta.env.PROD && window.gtag) {
+      gtag("event", "download_clicked_error", {
+        error: t("error.no_image_to_download"),
+      });
+    }
 
     showNotification(t("error.no_image_to_download"), "error");
     return;
   }
 
-  window.umami?.track("download_clicked", { blobUrl });
+  if (import.meta.env.PROD && window.gtag) {
+    gtag("event", "download_clicked", {
+      blob_url: blobUrl,
+    });
+  }
 
   triggerDownload(blobUrl, "compressed_image.jpg");
 }

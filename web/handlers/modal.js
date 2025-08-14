@@ -26,7 +26,9 @@ export function revokeCurrentBlobUrl() {
  * Hides the modal and clears the compressed image preview.
  */
 export function closeModal() {
-  window.umami?.track("modal_close_btn_clicked");
+  if (import.meta.env.PROD && window.gtag) {
+    gtag("event", "modal_close_btn_clicked");
+  }
 
   revokeCurrentBlobUrl();
 
@@ -84,18 +86,22 @@ export function showCompressedImage(blobUrl, originalSize, compressedSize) {
   originalSizeHtml.textContent = formatBytes(originalSize);
   compressedSizeHtml.textContent = formatBytes(compressedSize);
 
-  window.umami?.track("compression_sucess", {
-    original_size: originalSize,
-    compressed_size: compressedSize,
-  });
+  if (import.meta.env.PROD && window.gtag) {
+    gtag("event", "compression_sucess", {
+      original_size: originalSize,
+      compressed_size: compressedSize,
+    });
+  }
 
   if (originalSize < compressedSize) {
     sizeObservation.classList.remove("hidden");
 
-    window.umami?.track("compression_worse_than_original", {
-      original_size: originalSize,
-      compressed_size: compressedSize,
-    });
+    if (import.meta.env.PROD && window.gtag) {
+      gtag("event", "compression_worse_than_original", {
+        original_size: originalSize,
+        compressed_size: compressedSize,
+      });
+    }
   }
 }
 

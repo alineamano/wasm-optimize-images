@@ -87,7 +87,9 @@ export function handleRemoveFile(event) {
   preventDefaults(event);
   clearSelectedFile();
 
-  window.umami?.track("file_removed");
+  if (import.meta.env.PROD && window.gtag) {
+    gtag("event", "file_removed");
+  }
 
   inputDropArea.focus();
 }
@@ -135,7 +137,10 @@ export function setupImageInputHandlers() {
   const removeFileBtn = $(IDs.removeFileBtn);
 
   inputDropArea.addEventListener("click", () => {
-    window.umami?.track("input_droparea_clicked");
+    if (import.meta.env.PROD && window.gtag) {
+      gtag("event", "input_droparea_clicked");
+    }
+
     fileInput.click();
   });
 
@@ -155,7 +160,9 @@ export function setupImageInputHandlers() {
       return;
     }
 
-    window.umami?.track("file_selected");
+    if (import.meta.env.PROD && window.gtag) {
+      gtag("event", "file_selected");
+    }
 
     setSelectedFile(file);
   });
@@ -190,7 +197,9 @@ export function setupImageInputHandlers() {
 
       removeDragVisual();
 
-      window.umami?.track("input_droparea_dropped");
+      if (import.meta.env.PROD && window.gtag) {
+        gtag("event", "input_droparea_dropped");
+      }
     },
     true
   );

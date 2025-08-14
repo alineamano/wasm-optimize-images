@@ -12,7 +12,12 @@ export function setupQualitySlider() {
   slider.addEventListener("input", (event) => {
     const quality = event.target.value;
     sliderValue.textContent = quality;
-    window.umami?.track("quality_changed", { quality });
+
+    if (import.meta.env.PROD && window.gtag) {
+      gtag("event", "quality_changed", {
+        quality,
+      });
+    }
   });
 }
 

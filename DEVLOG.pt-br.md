@@ -25,6 +25,7 @@ As imagens que eu tinha eram maiores do que o permitido e, em vez de usar um sit
 - **GitHub Pages** → deploy.
 - **Umami** → analytics (self-hosted).
 - **Supabase + Vercel** → backend para o Umami.
+- **GA4** → troca o analytics de Umami para GA4.
 
 
 ## 3. Processo de Desenvolvimento

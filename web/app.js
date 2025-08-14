@@ -12,24 +12,36 @@ import { getSelectedQuality, setupQualitySlider } from "./handlers/slider.js";
 import { showNotification } from "./utils/showNotification.js";
 import { loadLanguage, setupLanguageSelector, t } from "./utils/translate.js";
 
+const GA4_ID = "G-PK0MQW8S1D";
+
 const compressBtn = $(IDs.compressBtn);
 const languageSelector = $(IDs.languageSelector);
 
 /**
- * Dynamically loads the Umami analytics script in production environment.
+ * Dynamically loads the GA4 analytics script in production environment.
  *
  * - Checks if the environment is production.
- * - Creates a deferred <script> element with Umami URL and website ID.
+ * - Creates a deferred <script> element with Google Analytics URL and website ID.
  * - Appends the script to the document head to enable analytics tracking.
  */
-function loadUmami() {
+function loadGA4() {
   if (import.meta.env.PROD) {
-    const umamiScript = document.createElement("script");
-    umamiScript.defer = true;
-    umamiScript.src = import.meta.env.VITE_UMAMI_URL;
-    umamiScript.setAttribute("data-website-id", import.meta.env.VITE_UMAMI_ID);
-    document.head.appendChild(umamiScript);
+    const GAScript = document.createElement("script");
+    GAScript.async = true;
+    GAScript.src = `https://www.googletagmanager.com/gtag/js?id=${GA4_ID}`;
+    document.head.appendChild(GAScript);
   }
+
+  const inlineGAScript = document.createElement("script");
+  inlineGAScript.innerHTML = `
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', '${GA4_ID}');
+  `;
+
+  document.head.appendChild(inlineGAScript);
 }
 
 /**
@@ -37,7 +49,7 @@ function loadUmami() {
  * Initializes event handlers and sets up the image compression workflow.
  */
 async function main() {
-  loadUmami();
+  loadGA4();
 
   await loadLanguage("pt");
   setupLanguageSelector();
@@ -58,10 +70,13 @@ async function main() {
     const file = getSelectedFile();
     const selectedQuality = getSelectedQuality();
 
-    window.umami?.track("compress_btn_clicked", {
-      file,
-      select_quality: selectedQuality,
-    });
+    if (import.meta.env.PROD && window.gtag) {
+      gtag("event", "compress_btn_clicked", {
+        file_name: file?.name,
+        file_size: file?.size,
+        selected_quality: selectedQuality,
+      });
+    }
 
     if (!file) {
       showNotification(t("error.no_file"));

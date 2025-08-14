@@ -12,11 +12,13 @@ let hideTimeout;
  * @returns {void}
  */
 export function showNotification(message, type = "error", duration = 4000) {
-  window.umami?.track("show_notification", {
-    message,
-    type,
-    duration,
-  });
+  if (import.meta.env.PROD && window.gtag) {
+    gtag("event", "show_notification", {
+      message,
+      type,
+      duration,
+    });
+  }
 
   const notification = $(IDs.notification);
 

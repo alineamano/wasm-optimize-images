@@ -28,9 +28,11 @@ export async function loadLanguage(lang = "pt") {
     currentLang = lang;
     updateTexts();
 
-    window.umami?.track("language_changed", {
-      language: lang,
-    });
+    if (import.meta.env.PROD && window.gtag) {
+      gtag("event", "language_changed", {
+        language: lang,
+      });
+    }
   } catch (error) {
     console.error("Error to load language", error);
     showNotification(t("error.language_load_fail"));
